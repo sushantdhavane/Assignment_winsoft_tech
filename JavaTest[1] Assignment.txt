@@ -1,0 +1,171 @@
+Name: Sushant Dilip Dhavane
+Collage: JSPM's RSCOE
+
+
+Q1: Merge two arrays by satisfying given constraints
+Given two sorted arrays X[] and Y[] of size m and n each where m >= n and X[] has exactly n vacant cells,
+ merge elements of Y[] in their correct position in array X[], i.e., merge (X, Y) by keeping the sorted order.
+
+For example,
+
+Input: X[] = { 0, 2, 0, 3, 0, 5, 6, 0, 0 }
+Y[] = { 1, 8, 9, 10, 15 } The vacant cells in X[] is represented by 0 
+Output: X[] = { 1, 2, 3, 5, 6, 8, 9, 10, 15 }
+
+import java.util.Arrays;
+
+public class MergeArrays {
+    public static void mergeArrays(int[] X, int[] Y) {
+        int a = X.length;
+        int b = Y.length;
+        int i = a - b - 1;
+        int j = b - 1;
+        int k = a - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (X[i] > Y[j]) {
+                X[k] = X[i];
+                i--;
+            } else {
+                X[k] = Y[j];
+                j--;
+            }
+            k--;
+        }
+
+        while (j >= 0) {
+            X[k] = Y[j];
+            j--;
+            k--;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] X = {0, 2, 0, 3, 0, 5, 6, 0, 0};
+        int[] Y = {1, 8, 9, 10, 15};
+        
+        mergeArrays(X, Y);
+        System.out.println(Arrays.toString(X));
+}
+}
+
+
+
+Q2:Find maximum sum path involving elements of given arrays
+Given two sorted arrays of integers, find a maximum sum path involving elements of both arrays whose sum is maximum. 
+We can start from either array, but we can switch between arrays only through its common elements.
+
+For example,
+
+Input: X = { 3, 6, 7, 8, 10, 12, 15, 18, 100 }
+Y = { 1, 2, 3, 5, 7, 9, 10, 11, 15, 16, 18, 25, 50 }  
+The maximum sum path is: 1 —> 2 —> 3 —> 6 —> 7 —> 9 —> 10 —> 12 —> 15 —> 16 —> 18 —> 100 
+The maximum sum is 199
+
+public class MaximumSum {
+    public static int maximumSum(int[] X, int[] Y) {
+        int m = X.length;
+        int n = Y.length;
+        int i = 0, j = 0;
+        int sumX = 0, sumY = 0, maxSum = 0;
+
+        while (i < m && j < n) {
+            if (X[i] < Y[j]) {
+                sumX += X[i++];
+            } else if (X[i] > Y[j]) {
+                sumY += Y[j++];
+            } else { 
+                maxSum += Math.max(sumX, sumY) + X[i];
+                sumX = 0;
+                sumY = 0;
+                i++;
+                j++;
+            }
+        }
+        while (i < m) {
+            sumX += X[i++];
+        }
+        while (j < n) {
+            sumY += Y[j++];
+        }
+        maxSum += Math.max(sumX, sumY);
+
+        return maxSum;
+    }
+    public static void main(String[] args) {
+        int[] X = {3, 6, 7, 8, 10, 12, 15, 18, 100};
+        int[] Y = {1, 2, 3, 5, 7, 9, 10, 11, 15, 16, 18, 25, 50};
+
+        int maxSum = maximumSum(X, Y);
+        System.out.println("Maximum sum is: " + maxSum);
+    }
+}
+
+
+
+Q3:Write a Java Program to count the number of words in a string using HashMap.
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class WordCounter {
+    public static int countWords(String input) {
+        
+        String[] words = input.split("\\s+"); 
+        
+        HashMap<String, Integer> wordCountMap = new HashMap<>();
+    
+        for (String word : words) {
+            wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+        }
+        int totalWordCount = 0;
+        for (int count : wordCountMap.values()) {
+            totalWordCount += count;
+        }
+        
+        return totalWordCount;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a string:");
+        String input = scanner.nextLine();
+        scanner.close();
+        
+        int wordCount = countWords(input);
+        System.out.println("Total Word Count: " + wordCount);
+    }
+}
+
+
+Q4:Write a Java Program to find the duplicate characters in a string.
+
+
+import java.util.Scanner;
+
+public class DuplicateCharacters {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        findDuplicateCharacters(input);
+    }
+    public static void findDuplicateCharacters(String input) {
+        char[] characters = input.toCharArray();
+        for (int i = 0; i < characters.length; i++) {
+            if (characters[i] == '\0') {
+                continue;
+            }
+            int count = 1;
+            for (int j = i + 1; j < characters.length; j++) {
+                if (characters[i] == characters[j]) {
+                    count++;
+                    characters[j] = '\0';
+                }
+            }
+            if (count > 1) {
+                System.out.println("'" + characters[i] + "' appears " + count + " times.");
+            }
+ }
+}
+}
+
